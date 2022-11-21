@@ -18,9 +18,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.database_recy.Preference.MySharePreferences;
-import com.example.database_recy.danhsachthuchi.DanhSachThuChiAdapter;
-import com.example.database_recy.danhsachthuchi.DanhSachThuChi;
-import com.example.database_recy.danhsachthuchi.DanhSachThuChiAdapter;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +26,7 @@ import java.util.List;
 public class DanhSach extends Fragment {
     RecyclerView rcvDanhSach;
     ListView listView;
-    DanhSachThuChiAdapter danhSachThuChiAdapter;
+    com.example.database_recy.danhsachthuchi.DanhSachThuChiAdapter danhSachThuChiAdapter;
     DatabaseHelper db;
     MySharePreferences mySharePreferences;
     @SuppressLint("MissingInflatedId")
@@ -38,19 +36,15 @@ public class DanhSach extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.danh_sach,container,false);
         rcvDanhSach = view.findViewById(R.id.rcvDanhSach);
-        danhSachThuChiAdapter = new DanhSachThuChiAdapter(inflater.getContext());
+        danhSachThuChiAdapter = new com.example.database_recy.danhsachthuchi.DanhSachThuChiAdapter(inflater.getContext());
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(inflater.getContext(),RecyclerView.VERTICAL,false);
         rcvDanhSach.setLayoutManager(linearLayoutManager);
 
 
-        danhSachThuChiAdapter.setData(db.dsThuChi());
+        danhSachThuChiAdapter.setData(Login.db.dsThuChi());
         rcvDanhSach.setAdapter(danhSachThuChiAdapter);
-//        listView  = (ListView) view.findViewById(R.id.lv_show);
-//        DatabaseHelper db = new DatabaseHelper(getActivity());
-//        ArrayAdapter arr = new ArrayAdapter<UsersModel>(getActivity() , android.R.layout.simple_list_item_1, db.getEveryOne());
-//        listView.setAdapter(arr);
         return view;
-    }
+    };
 
 //    public List<DanhSachThuChi> getDanhSachThuChiList(){
 //        List<DanhSachThuChi> list = new ArrayList<>();

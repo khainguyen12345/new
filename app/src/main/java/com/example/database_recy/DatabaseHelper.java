@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import androidx.annotation.Nullable;
 
+import com.example.database_recy.Preference.MySharePreferences;
 import com.example.database_recy.danhsachthuchi.DanhSachThuChi;
 
 import java.util.ArrayList;
@@ -26,12 +27,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private String COLUMN_DATE = "COLUMN_DATE";
     private String TABLE_USER_INFOR = "TABLE_USER_INFOR";
     private String COLUMN_USER_INFOR_ID = "USER_INFOR_ID";
+    MySharePreferences mySharePreferences;
 
     public DatabaseHelper(@Nullable Context context) {
         super(context, "QuanLy.db", null, 1);
 
     }
     // query data
+    String query = "CREATE TABLE TABLE_USER_INFOR  (  USER_INFOR_ID  int primary key AUTOINCREMENT, USER_ID   int ,   NOTE  TEXT, COLUMN_MONEY  TEXT, DATE  DATE, THU_CHI TEXT, foreign key ( USER_ID ) REFERENCES TABLE_USERS( USER_INFOR_ID ));";
     public void queryData(String sqlQuery) {
         SQLiteDatabase db = getWritableDatabase();
         db.execSQL(sqlQuery);
@@ -41,15 +44,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = getReadableDatabase();
         return db.rawQuery(sqlQuery, null);
     }
-
+    // em sửa lại db nên xóa bỏ cái db cũ
     @Override
     public void onCreate(SQLiteDatabase myDb) {
-        String queryCreate = "CREATE TABLE " + TABLE_USERS + "(" + COLUMN_USER_ID + " INTEGER PRIMARY KEY AUTOINCREMENT , " + COLUMN_USERNAME + " TEXT UNIQUE , " + COLUMN_PASSWORD + " TEXT , " + COLUMN_NUMBER + " VARCHAR(12) , " + COLUMN_EMAIL + " TEXT );";
-        String query = "CREATE TABLE " + TABLE_USER_INFOR + "("  + COLUMN_USER_ID + " INTEGER, " + COLUMN_DATE + " DATE," + COLUMN_NOTE + " TEXT," + COLUMN_MONEY + " TEXT," + COLUMN_THU_CHI + " BOOL," + "FOREIGN KEY (" + COLUMN_USER_ID + ")" + "REFERENCES USER_INFOR(" + COLUMN_USER_ID +"));";
-        myDb.execSQL(queryCreate);
-        myDb.execSQL(query);
-    }
+        String queryCreate = "CREATE TABLE " + TABLE_USERS + "(" + COLUMN_USER_ID + " INTEGER PRIMARY KEY AUTOINCREMENT , " +
+                COLUMN_USERNAME + " TEXT UNIQUE , " + COLUMN_PASSWORD + " TEXT , " + COLUMN_NUMBER + " VARCHAR(12) , " + COLUMN_EMAIL + " TEXT );";
 
+        queryData(queryCreate);
+       queryData(query);
+    }
+// helo đợi em sửa cái nó ra lỗi
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
 
@@ -69,12 +73,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
     public boolean addUserInfor(UsersModel usersModel , String userID){
+
+
         SQLiteDatabase mydb = getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(COLUMN_USER_ID , userID);
-        values.put(COLUMN_DATE , String.valueOf(usersModel.getDate()));
         values.put(COLUMN_NOTE , usersModel.getNote());
-        values.put(COLUMN_THU_CHI , usersModel.isThu_chi());
+        values.put(COLUMN_MONEY , usersModel.getMoney());
+        values.put(COLUMN_DATE , String.valueOf(usersModel.getDate()));
+        values.put(COLUMN_THU_CHI , usersModel.getThu_chi());
         long insert = mydb.insert(TABLE_USER_INFOR, null , values);
         if(insert == -1) {
             return false;
@@ -113,7 +120,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 String note = cursor.getString(2);
                 String money = (cursor.getString(3));
                 String thuchi = cursor.getString(4);
-                UsersModel newCustomer = new UsersModel(date, note , 123123 , thuchi);
+                UsersModel newCustomer = new UsersModel(note , Integer.parseInt(money), thuchi);
                 returnlist.add(newCustomer);
             }while(cursor.moveToNext());
         }
@@ -128,11 +135,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         Cursor cursor = db.rawQuery(query , null);
         if(cursor.moveToFirst()) {
             do {
-//                int id = cursor.getInt(0);
-                String note = (cursor.getString(2));
+                int id = cursor.getInt(0);
+                String note = cursor.getString(2);
                 String money = cursor.getString(3);
-//                UsersModel addCustomer = new UsersModel(date, note , 123123 , thuchi);
-                DanhSachThuChi ds = new DanhSachThuChi(2 , note , money);
+                DanhSachThuChi ds = new DanhSachThuChi(id , note , Integer.parseInt(money) , "16/2/2002");
                 returnlist.add(ds);
             }while(cursor.moveToNext());
         }

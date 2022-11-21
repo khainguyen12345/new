@@ -2,10 +2,12 @@ package com.example.database_recy;
 
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
+import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -89,26 +91,29 @@ public class Nhap extends Fragment {
                 String thu ,chi;
                 String thoigian = tv_thoigian.getText().toString();
                 String danhmuc =  et_nhapdanhmuc.getText().toString();
-                Long sotien = Long.parseLong(et_nhapsotien.getText().toString());
+                String sotien = et_nhapsotien.getText().toString();
                 Boolean check = sw_luachon.isChecked();
-                if(danhmuc.isEmpty() || sotien == 0) {
+                if(danhmuc.isEmpty() || sotien.isEmpty()) {
                     Toast.makeText(getActivity(), "Please enter all", Toast.LENGTH_SHORT).show();
                 }
+                int tien = Integer.parseInt(sotien);
                 if(check == false) {
                     thu = "thu";
-                    UsersModel usersModel = new UsersModel(thoigian , danhmuc , sotien ,  thu);
+                    UsersModel usersModel = new UsersModel(thoigian , danhmuc , tien ,  thu);
                     Boolean insert = db.addUserInfor(usersModel , mySharePreferences.getString("userID"));
+                    Cursor cs = db.getData("select * from  TABLE_USER_INFOR"  );
                     if(insert) {
-                        Toast.makeText(getActivity(), "" + insert, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), ""  + tien, Toast.LENGTH_SHORT).show();
                     }else{
-                        Toast.makeText(getActivity(), "failed", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), "failed" + usersModel, Toast.LENGTH_SHORT).show();
                     }
                 }else{
                     chi = "chi";
-                    UsersModel usersModel = new UsersModel(thoigian , danhmuc , sotien ,  chi);
+                    UsersModel usersModel = new UsersModel(thoigian , danhmuc , tien ,  chi);
                     Boolean insert = db.addUserInfor(usersModel, mySharePreferences.getString("userID"));
+                    
                     if(insert) {
-                        Toast.makeText(getActivity(), "" + insert, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), "" + tien, Toast.LENGTH_SHORT).show();
                     }else{
                         Toast.makeText(getActivity(), "failed", Toast.LENGTH_SHORT).show();
                     }

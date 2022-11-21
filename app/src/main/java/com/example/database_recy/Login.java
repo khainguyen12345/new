@@ -18,7 +18,7 @@ import com.example.database_recy.Preference.MySharePreferences;
 public class Login extends AppCompatActivity {
     EditText username , password;
     Button buttonLogin , buttonSigup;
-    DatabaseHelper db;
+    public static DatabaseHelper db;
     MySharePreferences mySharePreferences;
 
     @Override

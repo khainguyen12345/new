@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    >
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
 
     <View
@@ -33,5 +33,18 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="37dp"
-        android:background="#E2CBFF" />
+        android:background="#E2CBFF"
+        app:queryHint="Tìm kiếm ở đây"
+        app:iconifiedByDefault="false"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rcvDanhSach_search"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="90dp"
+        android:layout_marginBottom="0dp" />
 </RelativeLayout>

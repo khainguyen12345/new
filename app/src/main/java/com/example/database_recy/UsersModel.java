@@ -7,12 +7,12 @@ public class UsersModel {
     private String note;
     private String number;
     private String email;
-    private long money;
+    private int money;
     private String thu_chi;
     private String date;
 
 
-    public UsersModel(String date, String note, long money , String thu_chi) {
+    public UsersModel(String date, String note, int money , String thu_chi) {
         this.note = note;
         this.money = money;
         this.thu_chi = thu_chi;
@@ -26,7 +26,12 @@ public class UsersModel {
         this.email = email;
     }
 
-//    public UsersModel(String date, String note, String money, String thuchi) {
+    public UsersModel(String note, int money, String thu_chi) {
+        this.note = note;
+        this.money = money;
+        this.thu_chi = thu_chi;
+    }
+    //    public UsersModel(String date, String note, String money, String thuchi) {
 //
 //    }
 
@@ -115,11 +120,11 @@ public class UsersModel {
         return money;
     }
 
-    public void setMoney(long money) {
+    public void setMoney(int money) {
         this.money = money;
     }
 
-    public String isThu_chi() {
+    public String getThu_chi() {
         return thu_chi;
     }
 
@@ -127,7 +132,7 @@ public class UsersModel {
         this.thu_chi = thu_chi;
     }
 
-    public UsersModel(String username, String password, String note, long money, String thu_chi) {
+    public UsersModel(String username, String password, String note, int money, String thu_chi) {
         this.username = username;
         this.password = password;
         this.note = note;
