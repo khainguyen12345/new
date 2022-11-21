@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Database_recy</string>
+    <string name="CustomerName">Customer Name</string>
+    <string name="action_nhap">NHẬP</string>
+    <string name="action_hien">HIỆN</string>
+    <string name="action_timkiem">TÌM KIẾM</string>
+</resources>
